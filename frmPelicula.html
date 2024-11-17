@@ -1,22 +1,48 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+ <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> PELICULAS - CINECLUB </title>
-    <!-- Scripts Base Sup -->
-    <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-    <!-- Select2 -->
     <link href="Estilos/select2.min.css" rel="stylesheet" />
     <link href="Estilos/select2-bootstrap4.min.css" rel="stylesheet" />
-    <!--Estilos para las tablas(datatables)-->
     <link href="Estilos/dataTables.min.css" rel="stylesheet" />
     <link href="Estilos/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="Estilos/adminlte.min.css" rel="stylesheet" />
 
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            font-size: 1.2em;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            font-family: 'Georgia', serif;
+        }
+
+        label {
+            font-size: 1.1em;
+        }
+
+        .btn {
+            font-size: 1.1em;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        input, select {
+            font-size: 1.1em;
+            font-family: 'Courier New', monospace;
+        }
+
+        #tablaDatos {
+            font-size: 1.1em;
+            font-family: 'Tahoma', sans-serif;
+        }
+    </style>
 </head>
+    
 <body class="hold-transition sidebar-mini">
     <section class="content">
         <div class="container-fluid">
@@ -62,6 +88,7 @@
 
                                         </div>
 
+                                        
                                         <div class="row">
                                              <div class="col-md-4">
                                                 <div class="form-group">
@@ -88,43 +115,8 @@
                                                     <input type="text" class="form-control" id="txtEmpleado" width="15" placeholder="Ingrese el codigo de empleado: " disabled>
                                                 </div>
                                             </div>
-
-
+                                            
                                       </div>
-
-
-                                            <div class="row">
-                     <!--                      <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="cboTipDoc">Tipo Documento</label>
-                                                    <select id="cboTipDoc" class="form-control">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="txtNroDoc">Nro. Documento</label>
-                                                    <input type="text" class="form-control" id="txtNroDoc"  placeholder="Ingrese Nro Documento...">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="cboDpto">Departamento</label>
-                                                    <select id="cboDpto" class="form-control" onchange="llenarComboCiudad();">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="cboCiudad">Ciudad</label>
-                                                    <select id="cboCiudad" class="form-control">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>   -->
-                                        <!-- Acá para más rows para datos -->
-                                    </div>
 
                                     <!-- Menú de Opciones -->
                                     <div class="card-body">
