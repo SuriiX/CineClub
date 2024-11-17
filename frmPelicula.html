@@ -1,3 +1,4 @@
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +25,7 @@
         h3 {
             font-size: 1.5em;
             font-family: 'Georgia', serif;
-            text-align: center; 
+            text-align: center;
         }
 
         label {
@@ -36,7 +37,7 @@
             font-family: 'Verdana', sans-serif;
         }
 
-       input, select {
+        input, select {
             font-size: 1.0em;
             font-family: 'Courier New', monospace;
             width: 80%; /* Cambiar el ancho de los campos de entrada */
@@ -45,6 +46,7 @@
             margin-bottom: 15px; /* Espacio entre campos */
             padding: 5px; /* Añadir algo de relleno */
         }
+
         #tablaDatos {
             font-size: 1.1em;
             font-family: 'Tahoma', sans-serif;
@@ -67,7 +69,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="card card-primary">
-                        <div class="card-header text-center"> 
+                        <div class="card-header text-center">
                             <h3 class="card-title">PELICULAS</h3>
                         </div>
                         <form id="frmDatosIn">
@@ -119,7 +121,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="txtEmpleado">Empleado editor: </label>
-                                                    <input type="text" class="form-control" id="txtEmpleado" placeholder="Ingrese el código de empleado" disabled>
+                                                    <input type="text" class="form-control" id="txtEmpleado" placeholder="Ingrese el código de empleado"disabled >
                                                 </div>
                                             </div>
                                         </div>
@@ -142,7 +144,7 @@
                                         <table id="tablaDatos" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Seleccionar</th>
+                                                    <th>Editar</th>
                                                     <th>Código</th>
                                                     <th>Nombre</th>
                                                     <th>Fecha Estreno</th>
@@ -176,6 +178,6 @@
     <script src="Scripts/Comunes/Tablas.js"></script>
     <!-- Impresión -->
     <!-- Para el script de control del form -->
-    <script src="Scripts/frmArtista.js"></script>
+    <script src="Scripts/frmPelicula.js"></script>
 </body>
 </html>
