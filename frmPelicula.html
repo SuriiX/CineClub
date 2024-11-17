@@ -36,7 +36,7 @@
         }
 
         input, select {
-            font-size: 0.8em;
+            font-size: 1.0em;
             font-family: 'Courier New', monospace;
         }
 
@@ -50,13 +50,12 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- Columna para el menú -->
-                <div class="col-md-12" id="dvMenu"></div>
-
-                <!-- Columna principal -->
+                <div class="col-md-12" id="dvMenu">
+                    <!-- Para incrustar la página que contiene el menú de navegación-->
+                </div>
                 <div class="col-md-12">
                     <div class="card card-primary">
-                        <div class="card-header">
+                        <div class="card-header text-center"> 
                             <h3 class="card-title">PELICULAS</h3>
                         </div>
                         <form id="frmDatosIn">
@@ -65,93 +64,78 @@
                                     <div class="card-header">
                                         <h3 class="card-title">Datos</h3>
                                     </div>
-
                                     <div class="card-body">
-                                        <!-- Campos de datos con saltos de línea (espacio) -->
                                         <div class="row mb-3">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="txtCodigo">Código: </label>
-                                                    <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de la película: " disabled>
+                                                    <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de la película" style="width: 100%;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="txtNombre">Nombre: </label>
-                                                    <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre de la película: ">
+                                                    <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre de la película" style="width: 100%;">
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="txtFechaEstreno">Fecha de Estreno: </label>
-                                                    <input type="text" class="form-control" id="txtFechaEstreno" placeholder="Ingrese la fecha de estreno: ">
+                                                    <input type="text" class="form-control" id="txtFechaEstreno" placeholder="Ingrese la fecha de estreno" style="width: 100%;">
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row mb-3">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="txtProductora">Productora: </label>
-                                                    <input type="text" class="form-control" id="txtProductora" placeholder="Ingrese el nombre de la productora: ">
+                                                    <input type="text" class="form-control" id="txtProductora" placeholder="Ingrese el nombre de la productora" style="width: 100%;">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="txtPais">Nacionalidad: </label>
-                                                    <input type="text" class="form-control" id="txtPais" placeholder="Ingrese el país de origen de la película: ">
+                                                    <input type="text" class="form-control" id="txtPais" placeholder="Ingrese el país de origen de la película" style="width: 100%;">
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="txtDirector">Director: </label>
-                                                    <input type="text" class="form-control" id="txtDirector" placeholder="Ingrese el director de la película: ">
+                                                    <input type="text" class="form-control" id="txtDirector" placeholder="Ingrese el director de la película" style="width: 100%;">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="txtEmpleado">Empleado: </label>
-                                                    <input type="text" class="form-control" id="txtEmpleado" placeholder="Ingrese el código de empleado: " disabled>
+                                                    <label for="txtEmpleado">Empleado editor: </label>
+                                                    <input type="text" class="form-control" id="txtEmpleado" placeholder="Ingrese el código de empleado" disabled style="width: 100%;">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Menú de Opciones con botones en dos renglones -->
                                     <div class="card-body">
-                                        <div class="row d-flex justify-content-between">
-                                            <div class="col-md-2">
-                                                <button type="button" id="btnAgregar" class="btn btn-primary btn-block">Agregar</button>
+                                        <div class="row d-flex flex-wrap justify-content-between mb-3">
+                                            <div class="col-md-4">
+                                                <button type="button" id="btnAgre" class="btn btn-lg btn-primary btn-block">Agregar</button>
                                             </div>
-                                            <div class="col-md-2">
-                                                <button type="button" id="btnModificar" class="btn btn-primary btn-block">Modificar</button>
+                                            <div class="col-md-4">
+                                                <button type="button" id="btnModi" class="btn btn-lg btn-primary btn-block">Modificar</button>
                                             </div>
-                                            <div class="col-md-2">
-                                                <button type="button" id="btnBuscar" class="btn btn-primary btn-block">Buscar</button>
+                                            <div class="col-md-4">
+                                                <button type="button" id="btnBusc" class="btn btn-lg btn-primary btn-block">Buscar</button>
                                             </div>
-                                            <div class="col-md-2">
-                                                <button type="button" id="btnCancelar" class="btn btn-primary btn-block">Cancelar</button>
+                                            <div class="col-md-4">
+                                                <button type="button" id="btnCanc" class="btn btn-lg btn-primary btn-block">Cancelar</button>
                                             </div>
-                                            <div class="col-md-2">
-                                                <button type="button" id="btnImprimir" class="btn btn-primary btn-block">Imprimir</button>
+                                            <div class="col-md-4">
+                                                <button type="button" id="btnImpr" class="btn btn-lg btn-primary btn-block">Impresión</button>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <!-- Zona de Mensajes -->
-                                    <div class="card-footer">
-                                        <div id="dvMensaje" class=""></div>
+                                        <div class="card-footer">
+                                            <div id="dvMensaje"></div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <!-- Tabla -->
-                                <div class="row mt-4">
+                                <div class="row">
                                     <div class="col-md-12">
                                         <table id="tablaDatos" class="table table-bordered table-striped">
                                             <thead>
