@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,45 +86,53 @@
                                                     <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de la película">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="txtNombre">Nombre: </label>
                                                     <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre de la película">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="txtFechaEstreno">Fecha de Estreno: </label>
-                                                    <input type="text" class="form-control" id="txtFechaEstreno" placeholder="Ingrese la fecha de estreno">
+                                                    <input type="date" class="form-control" id="txtFechaEstreno" placeholder="Ingrese la fecha de estreno">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="txtProductora">Productora: </label>
-                                                    <input type="text" class="form-control" id="txtProductora" placeholder="Ingrese el nombre de la productora">
+                                                    <label for="cboPais">Pais: </label>
+                                                    <select id="cboPais" class="form-control">
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="txtPais">Nacionalidad: </label>
-                                                    <input type="text" class="form-control" id="txtPais" placeholder="Ingrese el país de origen de la película">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="txtDirector">Director: </label>
-                                                    <input type="text" class="form-control" id="txtDirector" placeholder="Ingrese el director de la película">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="txtEmpleado">Empleado editor: </label>
-                                                    <input type="text" class="form-control" id="txtEmpleado" placeholder="Ingrese el código de empleado"disabled >
+                                                    <label for="cboDirector">Director: </label>
+                                                    <select id="cboDirector" class="form-control">
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="cboProductora">Productora: </label>
+                                                    <select id="cboProductora" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="cboEmpleado">Empleado: </label>
+                                                    <select id="cboEmpleado" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="row button-row mb-3">
@@ -180,4 +188,5 @@
     <!-- Para el script de control del form -->
     <script src="Scripts/frmPelicula.js"></script>
 </body>
+</html>
 </html>
