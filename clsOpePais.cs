@@ -16,7 +16,7 @@ namespace apiCineClub.Clases
         public List<tblPai> listarPais()
         {
             return oCCE.tblPais   //Tabla modelo entity
-                .OrderBy(x => x.Nombre)
+                .OrderBy(x => x.Codigo)
                 .ToList();
         }
     }

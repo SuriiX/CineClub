@@ -19,18 +19,18 @@ namespace apiCineClub.Clases
             {
                 var peliculas = from tP in oCCE.Set<tblPelicula>()
                                 join tTP in oCCE.Set<tblProductora>()
-                                on tP.Id_Productora equals tTP.Id_Productora
+                                on tP.Id_Productora equals tTP.Codigo
                                 join tTps in oCCE.Set<tblPai>()
-                                on tP.Id_Pais equals tTps.Id_Pais
+                                on tP.Id_Pais equals tTps.Codigo
                                 join tD in oCCE.Set<tblDirector>()
-                                on tP.Id_Director equals tD.Id_Director
+                                on tP.Id_Director equals tD.Codigo
                                 join tE in oCCE.Set<tblEmpleado>()
-                                on tP.Id_Empleado equals tE.Id_Empleado
-                                orderby tP.Id_Pelicula
+                                on tP.Id_Empleado equals tE.Codigo
+                                orderby tP.Codigo
                                 select new
                                 {
                                     Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
-                                    Codigo = tP.Id_Pelicula,
+                                    Codigo = tP.Codigo,
                                     Nombre = tP.Nombre,
                                     FechaEstreno = tP.Fecha_Estreno,
                                     Productora = tTP.Nombre,
@@ -54,26 +54,30 @@ namespace apiCineClub.Clases
             {
                 var pelicula = from tP in oCCE.Set<tblPelicula>()
                                join tTP in oCCE.Set<tblProductora>()
-                               on tP.Id_Productora equals tTP.Id_Productora
+                               on tP.Id_Productora equals tTP.Codigo
                                join tTps in oCCE.Set<tblPai>()
-                               on tP.Id_Pais equals tTps.Id_Pais
+                               on tP.Id_Pais equals tTps.Codigo
                                join tD in oCCE.Set<tblDirector>()
-                               on tP.Id_Director equals tD.Id_Director
+                               on tP.Id_Director equals tD.Codigo
                                join tE in oCCE.Set<tblEmpleado>()
-                               on tP.Id_Empleado equals tE.Id_Empleado
+                               on tP.Id_Empleado equals tE.Codigo
 
-                               where tP.Id_Pelicula == id
+                               where tP.Codigo == id
 
-                               orderby tP.Id_Pelicula
+                               orderby tP.Codigo
                                select new
                                {
                                    Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
-                                   Codigo = tP.Id_Pelicula,
+                                   Codigo = tP.Codigo,
                                    Nombre = tP.Nombre,
                                    FechaEstreno = tP.Fecha_Estreno,
+                                   Id_Productora = tTP.Codigo,
                                    Productora = tTP.Nombre,
+                                   Id_Nacionalidad = tTps.Codigo,
                                    Nacionalidad = tTps.Nombre,
+                                   Id_Director = tD.Codigo,
                                    Director = tD.Nombre,
+                                   Id_Empleado = tE.Codigo,
                                    Empleado = tE.Nombre,
                                };
 
@@ -91,25 +95,25 @@ namespace apiCineClub.Clases
             var idmax = 0;
             try
             {
-                idmax = oCCE.tblPeliculas.DefaultIfEmpty().Max(r => r == null ? 1 : r.Id_Pelicula + 1);
+                idmax = oCCE.tblPeliculas.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
             }
             catch
             {
 
-                return $"Error, Hubo un fallo al grabar en el registro: {tblPeli.Nombre}, con Id: {tblPeli.Id_Pelicula} ";
+                return $"Error, Hubo un fallo al grabar en el registro: {tblPeli.Nombre}, con Id: {tblPeli.Codigo} ";
             }
 
-            tblPeli.Id_Pelicula = idmax;
+            tblPeli.Codigo = idmax;
             try
             {
                 oCCE.tblPeliculas.Add(tblPeli);
                 oCCE.SaveChanges();
-                return $"Registro grabado con éxito: {tblPeli.Nombre} , con Id: {tblPeli.Id_Pelicula} ";
+                return $"Registro grabado con éxito: {tblPeli.Nombre} , con Id: {tblPeli.Codigo} ";
 
             }
             catch
             {
-                return $"Error, hubo fallo al grabar el registro: {tblPeli.Nombre} , con Id: {tblPeli.Id_Pelicula} ";
+                return $"Error, hubo fallo al grabar el registro: {tblPeli.Nombre} , con Id: {tblPeli.Codigo} ";
 
             }
 
@@ -119,12 +123,12 @@ namespace apiCineClub.Clases
         {
             try
             {
-                var tbPeli = oCCE.tblPeliculas.FirstOrDefault(s => s.Id_Pelicula == tblPeli.Id_Pelicula);
+                var tbPeli = oCCE.tblPeliculas.FirstOrDefault(s => s.Codigo == tblPeli.Codigo);
 
                 // Si no se encuentra el registro, devolver un mensaje de error
                 if (tbPeli == null)
                 {
-                    return $"No se encontró la película con ID: {tblPeli.Id_Pelicula}";
+                    return $"No se encontró la película con ID: {tblPeli.Codigo}";
                 }
 
                 // Actualizar los campos con los nuevos valores
@@ -138,13 +142,13 @@ namespace apiCineClub.Clases
                 // Guardar los cambios en la base de datos
                 oCCE.SaveChanges();
 
-                return $"Se actualizó el registro de la película con ID: {tbPeli.Id_Pelicula}";
+                return $"Se actualizó el registro de la película con ID: {tbPeli.Codigo}";
 
             }
             catch (Exception ex)
             {
                 // Retornar el mensaje de error con más detalles sobre el fallo
-                return $"Error, hubo un fallo al actualizar el registro de la película con ID: {tblPeli.Id_Pelicula}. Detalles: {ex.Message}";
+                return $"Error, hubo un fallo al actualizar el registro de la película con ID: {tblPeli.Codigo}. Detalles: {ex.Message}";
             }
         }
     }
