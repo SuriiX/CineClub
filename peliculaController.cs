@@ -12,37 +12,41 @@ namespace apiCineClub.Controllers
     [EnableCors(origins: "http://localhost:52006", headers: "*", methods: "*")]
     public class peliculaController : ApiController
     {
-        public IQueryable Get(int id, int comando )
+        private readonly bdCineClubEntities oCCE = new bdCineClubEntities();
+        public IQueryable Get(int id, int comando)
         {
             clsOpePelicula opePeli = new clsOpePelicula();
             IQueryable resultado;
 
             if (comando == 1)
             {
-                resultado = opePeli.listarPelicula(); 
+                resultado = opePeli.listarPelicula();
             }
             else
             {
-                resultado = opePeli.listarPeliculaXCod(id); 
+                resultado = opePeli.listarPeliculaXCod(id);
             }
             return resultado;
         }
 
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        public string Post([FromBody] tblPelicula datArt)
         {
+            clsOpePelicula opePeli = new clsOpePelicula();
+
+            opePeli.tblPeli = datArt;
+            return opePeli.Agregar();
+
+
+
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
+        public string Put([FromBody] tblPelicula datArt)
         {
+            clsOpePelicula opePeli = new clsOpePelicula();
+            opePeli.tblPeli = datArt;
+            return opePeli.Modificar();
         }
 
         // DELETE api/<controller>/5
