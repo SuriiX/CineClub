@@ -1,10 +1,147 @@
-﻿<!DOCTYPE html>
-<html>
+﻿﻿
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PELICULAS - CINECLUB</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
+    <!-- Estilos externos -->
+    <link href="Estilos/select2.min.css" rel="stylesheet" />
+    <link href="Estilos/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="Estilos/dataTables.min.css" rel="stylesheet" />
+    <link href="Estilos/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="Estilos/adminlte.min.css" rel="stylesheet" />
+
+    <!-- Estilos internos -->
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            font-size: 1.2em;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            font-family: 'Georgia', serif;
+            text-align: center;
+        }
+
+        label {
+            font-size: 1.1em;
+        }
+
+        .btn {
+            font-size: 1.1em;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        input, select {
+            font-size: 1.0em;
+            font-family: 'Courier New', monospace;
+            width: 80%; /* Cambiar el ancho de los campos de entrada */
+            background-color: #f5f5f5; /* Fondo claro */
+            text-align: justify; /* Justificar el texto */
+            margin-bottom: 15px; /* Espacio entre campos */
+            padding: 5px; /* Añadir algo de relleno */
+        }
+
+        #tablaDatos {
+            font-size: 1.1em;
+            font-family: 'Tahoma', sans-serif;
+        }
+
+        .button-row {
+            display: flex; /* Asegura que los botones estén en una sola línea */
+            justify-content: space-around; /* Espaciado entre los botones */
+            flex-wrap: wrap; /* Ajuste en pantallas pequeñas */
+            gap: 5px; /* Espacio entre botones */
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12" id="dvMenu">
+                    <!-- Para incrustar la página que contiene el menú de navegación-->
+                </div>
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header text-center">
+                            <h3 class="card-title">ESTADO</h3>
+                        </div>
+                        <form id="frmDatosIn">
+                            <div class="card-body">
+                                <div class="card card-gray-dark">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Datos</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="txtCodigo">Código: </label>
+                                                    <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de la película">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="txtNombre">Nombre: </label>
+                                                    <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese el nombre de la película">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row button-row mb-3">
+                                        <button type="button" id="btnAgre" class="btn btn-lg btn-primary">Agregar</button>
+                                        <button type="button" id="btnModi" class="btn btn-lg btn-primary">Modificar</button>
+                                        <button type="button" id="btnBusc" class="btn btn-lg btn-primary">Buscar</button>
+                                        <button type="button" id="btnCanc" class="btn btn-lg btn-primary">Cancelar</button>
+                                        <button type="button" id="btnImpr" class="btn btn-lg btn-primary">Impresión</button>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div id="dvMensaje"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="tablaDatos" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Editar</th>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Para los script de uso -->
+    <script src="../Scripts/jquery-3.7.0.js"></script>
+    <script src="../Scripts/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="../Scripts/select2.min.js"></script>
+    <script src="Scripts/Comunes/Combos.js"></script>
+
+    <!-- Tabla -->
+    <script src="../Scripts/jquery.dataTables.min.js"></script>
+    <script src="../Scripts/dataTables.bootstrap4.min.js"></script>
+    <!--Librerías comunes de JavaScript para las Tablas -->
+    <script src="Scripts/Comunes/Tablas.js"></script>
+    <!-- Impresión -->
+    <!-- Para el script de control del form -->
+    <script src="Scripts/frmEstado.js"></script>
 </body>
 </html>
