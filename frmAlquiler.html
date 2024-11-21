@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +70,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header text-center">
-                            <h3 class="card-title">ALQUILER</h3>
+                            <h3 class="card-title">PENALIZAR</h3>
                         </div>
                         <form id="frmDatosIn">
                             <div class="card-body">
@@ -83,22 +83,27 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="txtCodigo">Código: </label>
-                                                    <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de el alquiler">
+                                                    <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de la película">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="txtFechaAlquiler">Fecha de Alquiler </label>
-                                                    <input type="date" class="form-control" id="txtFechaAlquiler" placeholder="Ingrese la fecha de alquiler">
+                                                    <label for="txtMotivo">Motivo: </label>
+                                                    <input type="text" class="form-control" id="txtMotivo" placeholder="Ingrese el motivo">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="txtFechaPenalizacion">Fecha de Penalizacion: </label>
+                                                    <input type="date" class="form-control" id="txtFechaPenalizacion" placeholder="Ingrese la fecha de penalizacion">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="cboCliente">Cliente: </label>
-                                                    <select id="cboCliente" class="form-control">
-                                                    </select>
+                                                    <label for="txtValorPenalizacion">Valor de Penalizacion: </label>
+                                                    <input type="text" class="form-control" id="txtValorPenalizacion" placeholder="Ingrese el valor de la penalizacion">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -109,7 +114,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -132,8 +136,9 @@
                                             <tr>
                                                 <th>Editar</th>
                                                 <th>Código</th>
-                                                <th>FechaAlquiler</th>
-                                                <th>Cliente</th>
+                                                <th>Motivo</th>
+                                                <th>FechaPnlz </th>
+                                                <th>ValorPnlz</th>
                                                 <th>Empleado</th>
                                             </tr>
                                         </thead>
