@@ -70,7 +70,7 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header text-center">
-                            <h3 class="card-title">EJEMPLARES </h3>
+                            <h3 class="card-title">NUESTROS EJEMPLARES</h3>
                         </div>
                         <form id="frmDatosIn">
                             <div class="card-body">
@@ -82,10 +82,38 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="txtNombreProtagonista">Nombre protagonista: </label>
-                                                    <input type="text" class="form-control" id="txtNombreProtagonista" placeholder="Ingrese el nombre de el/la protagonista">
+                                                    <label for="txtCodigo">Código: </label>
+                                                    <input type="text" class="form-control" id="txtCodigo" placeholder="Ingrese el código de empleado">
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="txtCantidad">Cantidad: </label>
+                                                    <input type="number" class="form-control" id="txtCantidad" placeholder="Ingrese la cantidad de ejemplares">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="txtVlrAlquiler">Valor del Alquiler: </label>
+                                                    <input type="number" class="form-control" id="txtVlrAlquiler" placeholder="Ingrese el valor del Alquiler">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="chkPrestado">Prestado: </label>
+                                                    <input type="checkbox" class="form-control" id="chkPrestado">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="chkActivo">Activo: </label>
+                                                    <input type="checkbox" class="form-control" id="chkActivo" placeholder="CHECKBOX">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="cboPelicula">Película: </label>
@@ -93,23 +121,25 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="cboEstado">Estado: </label>
+                                                    <select id="cboEstado" class="form-control">
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label for="cboActor">Actor: </label>
-                                                    <select id="cboActor" class="form-control">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="cboRol">Rol: </label>
-                                                    <select id="cboRol" class="form-control">
+                                                    <label for="cboEmpleado">Empleado: </label>
+                                                    <select id="cboEmpleado" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
+
+
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -163,6 +193,6 @@
     <script src="Scripts/Comunes/Tablas.js"></script>
     <!-- Impresión -->
     <!-- Para el script de control del form -->
-    <script src="Scripts/frmProductora.js"></script>
+    <script src="Scripts/frmPelicula.js"></script>
 </body>
 </html>
