@@ -24,7 +24,7 @@ namespace apiCineClub.Controllers
             }
             else
             {
-                resultado = opeAlquil.listarAlquilerXCod(int id);
+                resultado = opeAlquil.listarAlquilerXCod(id);
             }
             return resultado;
         }
@@ -51,7 +51,7 @@ namespace apiCineClub.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public void Delete(id)
         {
         }
     }
