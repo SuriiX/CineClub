@@ -91,33 +91,22 @@ namespace apiCineClub.Clases
 
         public string Agregar()
         {
-
-            var idmax = 0;
             try
             {
-                idmax = oCCE.tblPeliculas.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
-            }
-            catch
-            {
+                // Obtener el próximo ID (si es necesario)
+                var idmax = oCCE.tblPeliculas.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
+                tblPeli.Codigo = idmax;
 
-                return $"Error, Hubo un fallo al grabar en el registro: {tblPeli.Nombre}, con Id: {tblPeli.Codigo} ";
-            }
-
-            tblPeli.Codigo = idmax;
-            try
-            {
+                // Insertar el registro
                 oCCE.tblPeliculas.Add(tblPeli);
                 oCCE.SaveChanges();
-                return $"Registro grabado con éxito: {tblPeli.Nombre} , con Id: {tblPeli.Codigo} ";
 
+                return $"Registro grabado con éxito: {tblPeli.Nombre}, con ID: {tblPeli.Codigo}";
             }
-            catch
+            catch (Exception ex)
             {
-                return $"Error, hubo fallo al grabar el registro: {tblPeli.Nombre} , con Id: {tblPeli.Codigo} ";
-
+                return $"Error al grabar el registro: {ex.Message}";
             }
-
-
         }
         public string Modificar()
         {
@@ -149,6 +138,27 @@ namespace apiCineClub.Clases
             {
                 // Retornar el mensaje de error con más detalles sobre el fallo
                 return $"Error, hubo un fallo al actualizar el registro de la película con ID: {tblPeli.Codigo}. Detalles: {ex.Message}";
+            }
+        }
+        public string Eliminar(int id)
+        {
+            try
+            {
+                // Buscar el registro en la base de datos por el código
+                var pelicula = oCCE.tblPeliculas.FirstOrDefault(p => p.Codigo == id);
+                if (pelicula == null)
+                {
+                    return $"Error: No se encontró el registro con Código {id}.";
+                }
+
+                // Eliminar el registro
+                oCCE.tblPeliculas.Remove(pelicula);
+                oCCE.SaveChanges();
+                return $"Registro con Código {id} eliminado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                return $"Error al intentar eliminar el registro con Código {id}: {ex.Message}";
             }
         }
     }

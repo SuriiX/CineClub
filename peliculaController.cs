@@ -41,6 +41,7 @@ namespace apiCineClub.Controllers
 
         }
 
+
         // PUT api/<controller>/5
         public string Put([FromBody] tblPelicula datArt)
         {
@@ -50,8 +51,10 @@ namespace apiCineClub.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public string Delete(int id)
         {
+            clsOpePelicula opePeli = new clsOpePelicula();
+            return opePeli.Eliminar(id); // Retorna un mensaje del método Eliminar
         }
     }
 }
