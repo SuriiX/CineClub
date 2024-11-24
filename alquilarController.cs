@@ -15,12 +15,13 @@ namespace apiCineClub.Controllers
         private readonly bdCineClubEntities oCCE = new bdCineClubEntities();
         public IQueryable Get(int id, int comando)
         {
-            clsOpePelicula opeAlqui = new clsOpeAlquilar();
+            clsOpeAlquilar opeAlqui = new clsOpeAlquilar();
             IQueryable resultado;
 
             if (comando == 1)
             {
                 resultado = opeAlqui.listarAlquileres();
+            }
             else
             {
                 resultado = opeAlqui.listarAlquilerXCod(int id);
@@ -46,7 +47,7 @@ namespace apiCineClub.Controllers
             clsOpeAlquilar opeAlqui = new clsOpeAlquilar();
 
             opeAlqui.tblAlqui = datArt;
-            return opePeli.Modificar();
+            return opeAlqui.Modificar();
         }
 
         // DELETE api/<controller>/5
