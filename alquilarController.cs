@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -6,15 +7,12 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using apiCineClub.Models;
 using apiCineClub.Clases;
-
 namespace apiCineClub.Controllers
 {
     [EnableCors(origins: "http://localhost:52006", headers: "*", methods: "*")]
     public class alquilarController : ApiController
     {
         private readonly bdCineClubEntities oCCE = new bdCineClubEntities();
-
-        // GET api/alquilar
         public IQueryable Get(int id, int comando)
         {
             clsOpeAlquilar opeAlqui = new clsOpeAlquilar();
@@ -22,41 +20,41 @@ namespace apiCineClub.Controllers
 
             if (comando == 1)
             {
-                resultado = opeAlqui.listarAlquileres();
+                resultado = opeAlqui.listarDetAlquiler();
             }
             else
             {
-                // Asegúrate de pasar el parámetro correctamente
-                resultado = opeAlqui.listarAlquilerXCod(id);
+                resultado = opeAlqui.listarDetAlquilarXCod(id);
             }
-
             return resultado;
         }
 
-        // POST api/alquilar
+        // POST api/<controller>
         public string Post([FromBody] tblDetAlquiler datArt)
         {
-            clsOpeAlquilar opeAlqui = new clsOpeAlquilar();
-            opeAlqui.tblAlqui = datArt;
+            clsOpeAlquilar opeDetAlqui = new clsOpeAlquilar();
 
-            // Asegúrate de que el método Agregar esté correctamente implementado
-            return opeAlqui.Agregar();
+            opeDetAlqui.tblDetAlqui = datArt;
+            return opeDetAlqui.Agregar();
+
+
+
         }
 
-        // PUT api/alquilar/5
+
+        // PUT api/<controller>/5
         public string Put([FromBody] tblDetAlquiler datArt)
         {
-            clsOpeAlquilar opeAlqui = new clsOpeAlquilar();
-            opeAlqui.tblAlqui = datArt;
-
-            // Asegúrate de que el método Modificar esté correctamente implementado
-            return opeAlqui.Modificar();
+            clsOpeAlquilar opeDetAlqui = new clsOpeAlquilar();
+            opeDetAlqui.tblDetAlqui = datArt;
+            return opeDetAlqui.Modificar();
         }
 
-        // DELETE api/alquilar/5
-        public void Delete(int id)
+        // DELETE api/<controller>/5
+        public string Delete(int id)
         {
-            // Implementar lógica de eliminación si es necesario
+            clsOpeAlquilar opeDetAlqui = new clsOpeAlquilar();
+            return opeDetAlqui.Eliminar(id); // Retorna un mensaje del método Eliminar
         }
     }
 }

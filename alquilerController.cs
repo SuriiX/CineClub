@@ -21,7 +21,7 @@ namespace apiCineClub.Controllers
 
             if (comando == 1)
             {
-                resultado = opeAlquil.listarAlquilereses();
+                resultado = opeAlquil.listarAlquiler();
             }
             else
             {
@@ -31,24 +31,17 @@ namespace apiCineClub.Controllers
         }
 
         // POST api/<controller>
-        public string Post([FromBody] tblAlquiler datArt)
+        public void Post([FromBody] tblAlquiler datArt)
         {
-            clsOpeAlquiler opeAlquil = new clsOpeAlquiler();
 
-            opeAlquil.tblAlquil = datArt;
-            return opeAlquil.Agregar();
 
 
 
         }
 
         // PUT api/<controller>/5
-        public string Put(tblAlquiler datArt)
+        public void Put(tblAlquiler datArt)
         {
-            clsOpeAlquiler opeAlquil = new clsOpeAlquiler();
-
-            opeAlquil.tblAlquil = datArt;
-            return opeAlquil.Modificar();
         }
 
         // DELETE api/<controller>/5
