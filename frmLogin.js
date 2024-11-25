@@ -42,6 +42,10 @@ async function Ingresar() {
         let resultado = await response.json();
 
         if (resultado === 0) {
+            // Guardamos los valores de usuario y contraseña en localStorage
+            localStorage.setItem('usuario', usu);
+            localStorage.setItem('contrasena', cla);
+
             window.location.href = "frmInicio.html";
         } else if (resultado === 1) {
             mensajeError("Usuario o contraseña incorrectos.");
@@ -57,5 +61,5 @@ async function Ingresar() {
 function Limpiar() {
     $("#username").val("");
     $("#password").val("");
-    $("#error-message").html("");
+    $("#error-message").html("Limpio");
 }

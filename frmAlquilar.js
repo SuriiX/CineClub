@@ -4,22 +4,21 @@ var oTabla = $("#tablaDatos").DataTable();
 jQuery(function () {
     // Carga el menú
     $("#dvMenu").load("../Paginas/Menu.html");
-    llenarComboPais();
-    llenarComboProduc();
-    llenarComboDirector();
-    llenarComboEmpleado();
+    llenarComboEjemplar();
+    llenarComboAlquiler();
+    actualizarUsuario();
     // Registrar los botones para responder al evento click
     $("#btnAgre").on("click", function () {
         mensajeInfo("");
         let codigo = $("#txtCodigo").val();
-        let nombre = $("#txtNombre").val();
+        let cantidad = $("#txtCantidad").val();
 
-        if (nombre.trim() == "" || codigo.trim() == "" || parseInt(codigo, 10) <= 0) {
+        if (cantidad.trim() == "" || codigo.trim() == "" || parseInt(codigo, 10) <= 0 || parseInt(cantidad, 10) <= 0) {
             mensajeError("Debe ingresar todos los campos");
             $("#txtCodigo").focus();
             return;
         } else {
-            let rpta = window.confirm("¿Estás seguro de agregar la película: " + nombre + "?");
+            let rpta = window.confirm("¿Estás seguro de agregar el alquiler: " + codigo + "?");
             if (rpta) {
                 ejecutarComando("POST");
             } else {
@@ -29,16 +28,15 @@ jQuery(function () {
     });
 
     $("#btnModi").on("click", function () {
-        mensajeInfo();
         let codigo = $("#txtCodigo").val();
-        let nombre = $("#txtNombre").val();
+        let cantidad = $("#txtCantidad").val();
 
-        if (nombre.trim() == "" || codigo.trim() == "" || parseInt(codigo, 10) <= 0) {
+        if (cantidad.trim() == "" || codigo.trim() == "" || parseInt(codigo, 10) <= 0 || parseInt(cantidad, 10) <= 0) {
             mensajeError("Debe ingresar todos los campos");
             $("#txtCodigo").focus();
             return;
         } else {
-            let rpta = window.confirm("¿Estás seguro de modificar la película: " + nombre + "?");
+            let rpta = window.confirm("¿Estás seguro de modificar el alquiler: " + codigo + "?");
             if (rpta) {
                 ejecutarComando("PUT");
             } else {
@@ -55,16 +53,19 @@ jQuery(function () {
             return;
         }
 
+        // Obtener el identificador único de la fila (Código)
         let codigo = filaSeleccionada.find("td:eq(1)").text();
 
+        // Confirmar la eliminación
         let confirmacion = window.confirm("¿Está seguro de eliminar el registro con Código: " + codigo + "?");
         if (!confirmacion) {
             mensajeInfo("Acción de eliminación cancelada.");
             return;
         }
 
+        // Llamar a la función de eliminación
         await eliminarRegistro(codigo, filaSeleccionada);
-        mensajeInfo("Ha sido eliminado con exito " + nombre);
+        mensajeInfo("Ha sido eliminado con exito " + codigo);
     });
 
     $("#btnBusc").on("click", function () {
@@ -91,7 +92,14 @@ jQuery(function () {
     });
 
 });
-
+function actualizarUsuario() {
+    let usuario = localStorage.getItem('usuario');
+    if (usuario) {
+        $("#usuarioNombre").text(`Usuario: ${usuario}`);
+    } else {
+        $("#usuarioNombre").text("Usuario: No logueado");
+    }
+}
 function mensajeError(texto) {
     $("#dvMensaje").removeClass("alert alert-success");
     $("#dvMensaje").addClass("alert alert-danger");
@@ -115,39 +123,36 @@ function editarFila(datosFila, evt) {
 
     datosFila.addClass("selected-row");
     let codigo = datosFila.find("td:eq(1)").text();
-    let nombre = datosFila.find("td:eq(2)").text();
-    let fechaEstreno = datosFila.find("td:eq(3)").text().split("T")[0];
-    let productora = datosFila.find("td:eq(4)").text();
-    let nacionalidad = datosFila.find("td:eq(5)").text();
-    let director = datosFila.find("td:eq(6)").text
-    let empleado = datosFila.find("td:eq(7)").text();
+    let cantidad = datosFila.find("td:eq(2)").text();
+    let fechaInicio = datosFila.find("td:eq(3)").text().split("T")[0];
+    let fechaFinal = datosFila.find("td:eq(4)").text().split("T")[0];
+    let valorAlquiler = datosFila.find("td:eq(5)").text();
+    let ejemplar = datosFila.find("td:eq(6)").text(); // Aquí está el texto que necesitas
+    let cliente = datosFila.find("td:eq(7)").text();
 
     $("#txtCodigo").val(codigo);
-    $("#txtNombre").val(nombre);
-    $("#txtFechaEstreno").val(fechaEstreno);
-    $("#cboProductora option").each(function () {
-        if ($(this).text() === productora) {
-            $("#cboProductora").val($(this).val()); // Asigna el value al combo
+    $("#txtCantidad").val(cantidad);
+    $("#txtfechaInicio").val(fechaInicio);
+    $("#txtfechaFinal").val(fechaFinal);
+    $("#txtValorAlquiler").val(valorAlquiler);
+
+    // Buscar el value correspondiente al texto de ejemplar
+    $("#cboEjemplar option").each(function () {
+        if ($(this).text() === ejemplar) {
+            $("#cboEjemplar").val($(this).val()); // Asigna el value al combo
         }
     });
-    $("#cboPais option").each(function () {
-        if ($(this).text() === nacionalidad) {
-            $("#cboPais").val($(this).val()); // Asigna el value al combo
+    $("#cboAlquiler option").each(function () {
+        if ($(this).text() === cliente) {
+            $("#cboAlquiler").val($(this).val()); // Asigna el value al combo
         }
     });
-    $("#cboDirector option").each(function () {
-        if ($(this).text() === director) {
-            $("#cboDirector").val($(this).val()); // Asigna el value al combo
-        }
-    });
-    $("#cboEmpleado option").each(function () {
-        if ($(this).text() === empleado) {
-            $("#cboEmpleado").val($(this).val()); // Asigna el value al combo
-        }
-    });
+
+    
 
     mensajeOk("Datos cargados en el formulario.");
 }
+
 
 async function eliminarRegistro(codigo) {
     if (!codigo) {
@@ -162,7 +167,7 @@ async function eliminarRegistro(codigo) {
 
     try {
         // Enviar solicitud DELETE con el código de la película
-        let response = await fetch(dir + "pelicula/" + codigo, {
+        let response = await fetch(dir + "alquilar/" + codigo, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -183,27 +188,17 @@ async function eliminarRegistro(codigo) {
 }
 
 async function llenarTabla() {
-    let rpta = await llenarTablaGral(dir + "pelicula?id=0&comando=1", "#tablaDatos");
+    let rpta = await llenarTablaGral(dir + "alquilar?id=0&comando=1", "#tablaDatos");
 }
 
-async function llenarComboPais() {
-    let url = dir + "pais";
-    let rpta = await llenarComboGral(url, "#cboPais");
+async function llenarComboEjemplar() {
+    let url = dir + "ejemplar?id=0&comando=1";
+    let rpta = await llenarComboGral(url, "#cboEjemplar");
 }
 
-async function llenarComboProduc() {
-    let url = dir + "productora?id=0&comando=1";
-    let rpta = await llenarComboGral(url, "#cboProductora");
-}
-
-async function llenarComboDirector() {
-    let url = dir + "director?id=0&comando=1";
-    let rpta = await llenarComboGral(url, "#cboDirector");
-}
-
-async function llenarComboEmpleado() {
-    let url = dir + "empleado?id=0&comando=1";
-    let rpta = await llenarComboGral(url, "#cboEmpleado");
+async function llenarComboAlquiler() {
+    let url = dir + "alquiler?id=0&comando=1";
+    let rpta = await llenarComboGral(url, "#cboAlquiler");
 }
 
 async function Consultar() {
@@ -216,7 +211,7 @@ async function Consultar() {
             return;
         }
 
-        const datosOut = await fetch(dir + "pelicula?id=" + codigo + "&comando=2", {
+        const datosOut = await fetch(dir + "alquilar?id=" + codigo + "&comando=2", {
             method: "GET",
             mode: "cors",
             headers: {
@@ -229,12 +224,12 @@ async function Consultar() {
             return;
         }
         $("#txtCodigo").val(datosIn[0].Codigo);
-        $("#txtNombre").val(datosIn[0].Nombre);
-        $("#txtFechaEstreno").val(datosIn[0].FechaEstreno.split("T")[0]);
-        $("#cboProductora").val(datosIn[0].Id_Productora);
-        $("#cboPais").val(datosIn[0].Id_Nacionalidad);
-        $("#cboDirector").val(datosIn[0].Id_Director);
-        $("#cboEmpleado").val(datosIn[0].Id_Empleado);
+        $("#txtCantidad").val(datosIn[0].Cantidad);
+        $("#txtValorAlquiler").val(datosIn[0].ValorAlquiler);
+        $("#txtfechaInicio").val(datosIn[0].FechaInicio.split("T")[0]);
+        $("#txtfechaFinal").val(datosIn[0].FechaFinal.split("T")[0]);
+        $("#cboEjemplar").val(datosIn[0].Id_Ejemplar);
+        $("#cboAlquiler").val(datosIn[0].Id_Alquiler);
     } catch (error) {
         mensajeError("Error: " + error);
     }
@@ -242,35 +237,34 @@ async function Consultar() {
 
 async function ejecutarComando(accion) {
     let codigo = $("#txtCodigo").val();
-    let nombre = $("#txtNombre").val();
-    let fechaEstreno = $("#txtFechaEstreno").val();
-    let idProductora = $("#cboProductora").val();
-    let idPais = $("#cboPais").val();
-    let idDirector = $("#cboDirector").val();
-    let idEmpleado = $("#cboEmpleado").val();
+    let cantidad = $("#txtCantidad").val();
+    let valorAlquiler = $("#txtValorAlquiler").val();
+    let fechaInicio = $("#txtfechaInicio").val();
+    let fechaFinal = $("#txtfechaFinal").val();
+    let idEjemplar = $("#cboEjemplar").val();
+    let idAlquiler = $("#cboAlquiler").val();
 
-    if (!codigo || !nombre || !fechaEstreno || !idProductora || !idPais || !idDirector || !idEmpleado) {
+    if (!codigo || !cantidad || !valorAlquiler || !fechaInicio || !fechaFinal || !idEjemplar || !idAlquiler) {
         mensajeError("Por favor, completa todos los campos.");
         return;
     }
 
-    // Validar la fecha antes de continuar con la operación
-    if (!validarFecha(fechaEstreno)) {
-        return; // Detener la ejecución si la fecha no es válida
+    if (!validarFecha(fechaInicio,fechaFinal)) {
+        return; 
     }
 
     let datosOut = {
         Codigo: parseInt(codigo, 10),
-        Nombre: nombre.trim(),
-        Fecha_Estreno: fechaEstreno,
-        Id_Productora: parseInt(idProductora, 10),
-        Id_Pais: parseInt(idPais, 10),
-        Id_Director: parseInt(idDirector, 10),
-        Id_Empleado: parseInt(idEmpleado, 10),
+        Cantidad: parseInt(cantidad, 10),
+        Fecha_Inicio: fechaInicio,
+        Fecha_Fin: fechaFinal,
+        Vlr_Alquiler: parseFloat(valorAlquiler),
+        Id_PeliculaEjem: parseInt(idEjemplar, 10),
+        Id_Alquiler: parseInt(idAlquiler, 10),
     };
 
     try {
-        const response = await fetch(dir + "pelicula", {
+        const response = await fetch(dir + "alquilar", {
             method: accion,
             headers: {
                 "Content-Type": "application/json",
@@ -283,54 +277,43 @@ async function ejecutarComando(accion) {
         }
 
         const Respuesta = await response.json();
-        Consultar(); // Refrescar datos en pantalla
+        Consultar(); 
         llenarTabla();
         mensajeOk(Respuesta);
     } catch (error) {
         mensajeError("Error: " + error.message);
     }
 }
-function limpiarFormulario() {
-    // Limpiar los campos de entrada
-    $("#txtCodigo").val("");
-    $("#txtNombre").val("");
-    $("#txtFechaEstreno").val("");
-    $("#cboProductora").val("");
-    $("#cboPais").val("");
-    $("#cboDirector").val("");
-    $("#cboEmpleado").val("");
 
-    // Limpiar cualquier mensaje de error o éxito
-    $("#dvMensaje").removeClass("alert alert-danger alert alert-info alert alert-success");
-    $("#dvMensaje").html("");
+ function validarFecha(fechaInicio,fechaFinal) {
+     const fechaInicioIngresada = new Date(fechaInicio); // Convierte la fecha de inicio a un objeto Date
+     const fechaFinalIngresada = new Date(fechaFinal);   // Convierte la fecha final a un objeto Date
+     const fechaActual = new Date();
+     const fechaMinima = new Date("1985-01-01");
+     if (isNaN(fechaInicioIngresada.getTime()) || isNaN(fechaFinalIngresada.getTime())) {
+         mensajeError("Por favor, ingresa fechas válidas.");
+         return false;
+     }
 
-    // Limpiar la selección de la tabla (si hay alguna fila seleccionada)
-    oTabla.$('tr.selected').removeClass('selected');
+     // Validar que la fecha de inicio esté dentro del rango permitido
+     if (fechaInicioIngresada < fechaMinima || fechaInicioIngresada > fechaActual) {
+         mensajeError("La fecha de inicio debe estar entre 1985 y la fecha actual.");
+         return false;
+     }
 
-    mensajeInfo("Formulario limpiado.");
+     // Validar que la fecha final esté dentro del rango permitido
+     if (fechaFinalIngresada < fechaMinima || fechaFinalIngresada > fechaActual) {
+         mensajeError("La fecha final debe estar entre 1985 y la fecha actual.");
+         return false;
+     }
+
+     // Validar que la fecha de inicio sea menor o igual a la fecha final
+     if (fechaInicioIngresada > fechaFinalIngresada) {
+         mensajeError("La fecha de inicio no puede ser mayor a la fecha final.");
+         return false;
+     }
+
+     mensajeInfo("Fechas válidas.");
+     return true;
 }
-function validarFecha(fecha) {
-    const fechaIngresada = new Date(fecha); // Convierte la fecha a un objeto Date
-    const fechaActual = new Date();
-    const fechaMinima = new Date("1985-01-01");
 
-    // Verificar si la fecha es inválida
-    if (isNaN(fechaIngresada.getTime())) {
-        mensajeError("Por favor, ingresa una fecha válida.");
-        return false;
-    }
-
-    // Validar si la fecha está dentro del rango permitido
-    if (fechaIngresada < fechaMinima) {
-        mensajeError("La fecha no puede ser anterior al año 1985.");
-        return false;
-    }
-
-    if (fechaIngresada > fechaActual) {
-        mensajeError("La fecha no puede ser superior a la fecha actual.");
-        return false;
-    }
-
-    mensajeInfo("Fecha válida.");
-    return true;
-}
