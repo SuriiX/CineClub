@@ -9,7 +9,7 @@ using apiCineClub.Models;
 using apiCineClub.Clases;
 namespace apiCineClub.Controllers
 {
-    [EnableCors(origins: "http://localhost:52006", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://localhost:52814", headers: "*", methods: "*")]
     public class alquilerController : ApiController
     {
         private readonly bdCineClubEntities oCCE = new bdCineClubEntities();
@@ -51,7 +51,7 @@ namespace apiCineClub.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(id)
+        public void Delete(int id)
         {
         }
     }
