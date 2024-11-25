@@ -85,11 +85,33 @@ namespace apiCineClub.Clases
         {
             try
             {
-                // Obtener el próximo ID (si es necesario)
+                // Verificar si hay más de 4 registros para el mismo ejemplar
+                int conteo = oCCE.tblDetAlquilers.Count(a => a.Id_PeliculaEjem == tblDetAlqui.Id_PeliculaEjem);
+                if (conteo >= 4)
+                {
+                    return $"No se puede agregar el registro. Solo hay disponibilidad de 4 ejemplares para esta película.";
+                }
+
+                // Obtener el siguiente ID disponible
                 var idmax = oCCE.tblDetAlquilers.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
                 tblDetAlqui.Codigo = idmax;
 
-                // Insertar el registro
+                // Verificar penalización
+                var penalizacionInfo = oCCE.tblPenalizacions
+                    .Where(p => p.Id_DetAlquiler == tblDetAlqui.Codigo)
+                    .Select(p => new { p.Vlr_Penalizacion, p.Motivo })
+                    .FirstOrDefault();
+
+                if (penalizacionInfo != null && penalizacionInfo.Vlr_Penalizacion > 0)
+                {
+                    tblDetAlqui.Vlr_Alquiler += penalizacionInfo.Vlr_Penalizacion;
+
+                    return $"Penalización aplicada de {penalizacionInfo.Vlr_Penalizacion}. " +
+                           $"Motivo: {penalizacionInfo.Motivo}. " +
+                           $"Total a pagar: {tblDetAlqui.Vlr_Alquiler}";
+                }
+
+                // Agregar el registro
                 oCCE.tblDetAlquilers.Add(tblDetAlqui);
                 oCCE.SaveChanges();
 
@@ -104,33 +126,58 @@ namespace apiCineClub.Clases
         {
             try
             {
-                var tbDetA = oCCE.tblDetAlquilers.FirstOrDefault(s => s.Codigo == tblDetAlqui.Codigo);
-
-                // Si no se encuentra el registro, devolver un mensaje de error
-                if (tbDetA == null)
+                // Validar que no existan más de 4 registros para el ejemplar
+                int conteo = oCCE.tblDetAlquilers.Count(a => a.Id_PeliculaEjem == tblDetAlqui.Id_PeliculaEjem && a.Codigo != tblDetAlqui.Codigo);
+                if (conteo >= 4)
                 {
-                    return $"No se encontró la película con ID: {tblDetAlqui.Codigo}";
+                    return $"No se puede modificar el registro. Solo hay disponibilidad de 4 ejemplares para esta película.";
                 }
 
-                // Actualizar los campos con los nuevos valores
-                tbDetA.Codigo = tblDetAlqui.Codigo;
+                var tbDetA = oCCE.tblDetAlquilers.FirstOrDefault(s => s.Codigo == tblDetAlqui.Codigo);
+
+                if (tbDetA == null)
+                {
+                    return $"No se encontró el alquiler con ID: {tblDetAlqui.Codigo}";
+                }
+
+                // Verificar penalización
+                var penalizacionInfo = oCCE.tblPenalizacions
+                    .Where(p => p.Id_DetAlquiler == tblDetAlqui.Codigo)
+                    .Select(p => new { p.Vlr_Penalizacion, p.Motivo })
+                    .FirstOrDefault();
+
+                if (penalizacionInfo != null && penalizacionInfo.Vlr_Penalizacion > 0)
+                {
+                    tblDetAlqui.Vlr_Alquiler += penalizacionInfo.Vlr_Penalizacion;
+
+                    tbDetA.Cantidad = tblDetAlqui.Cantidad;
+                    tbDetA.Fecha_Inicio = tblDetAlqui.Fecha_Inicio;
+                    tbDetA.Fecha_Fin = tblDetAlqui.Fecha_Fin;
+                    tbDetA.Vlr_Alquiler = tblDetAlqui.Vlr_Alquiler;
+                    tbDetA.Id_PeliculaEjem = tblDetAlqui.Id_PeliculaEjem;
+                    tbDetA.Id_Alquiler = tblDetAlqui.Id_Alquiler;
+
+                    oCCE.SaveChanges();
+
+                    return $"Penalización aplicada de {penalizacionInfo.Vlr_Penalizacion}. " +
+                           $"Motivo: {penalizacionInfo.Motivo}. " +
+                           $"Total a pagar: {tblDetAlqui.Vlr_Alquiler}";
+                }
+
                 tbDetA.Cantidad = tblDetAlqui.Cantidad;
                 tbDetA.Fecha_Inicio = tblDetAlqui.Fecha_Inicio;
                 tbDetA.Fecha_Fin = tblDetAlqui.Fecha_Fin;
-                tbDetA.Vlr_Alquiler = tblDetAlqui.Vlr_Alquiler ;
+                tbDetA.Vlr_Alquiler = tblDetAlqui.Vlr_Alquiler;
                 tbDetA.Id_PeliculaEjem = tblDetAlqui.Id_PeliculaEjem;
                 tbDetA.Id_Alquiler = tblDetAlqui.Id_Alquiler;
 
-                // Guardar los cambios en la base de datos
                 oCCE.SaveChanges();
 
-                return $"Se actualizó el registro de la película con ID: {tbDetA.Codigo}";
-
+                return $"Se actualizó el registro de alquiler con ID: {tbDetA.Codigo}";
             }
             catch (Exception ex)
             {
-                // Retornar el mensaje de error con más detalles sobre el fallo
-                return $"Error, hubo un fallo al actualizar el registro de la película con ID: {tblDetAlqui.Codigo}. Detalles: {ex.Message}";
+                return $"Error al actualizar el registro: {ex.Message}";
             }
         }
         public string Eliminar(int id)
@@ -154,5 +201,6 @@ namespace apiCineClub.Clases
                 return $"Error al intentar eliminar el registro con Código {id}: {ex.Message}";
             }
         }
+        
     }
 }
