@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,9 +7,10 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using apiCineClub.Models;
 using apiCineClub.Clases;
+
 namespace apiCineClub.Controllers
 {
-    [EnableCors(origins: "http://localhost:52814", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://localhost:52006", headers: "*", methods: "*")]
     public class alquilerController : ApiController
     {
         private readonly bdCineClubEntities oCCE = new bdCineClubEntities();

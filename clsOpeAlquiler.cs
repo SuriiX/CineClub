@@ -1,7 +1,6 @@
-using apiCineClub.Models;
+﻿using apiCineClub.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -29,7 +28,7 @@ namespace apiCineClub.Clases
                                          Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
                                          Codigo = tDA.Codigo,
                                      };
-                                     
+
                 return Alquileres_dos; // Retorna el IQueryable directamente
             }
             catch (Exception ex)
@@ -119,4 +118,3 @@ namespace apiCineClub.Clases
         }
     }
 }
-

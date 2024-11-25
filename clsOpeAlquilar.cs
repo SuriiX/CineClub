@@ -1,4 +1,4 @@
-using apiCineClub.Models;
+﻿using apiCineClub.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,23 +17,28 @@ namespace apiCineClub.Clases
         {
             try
             {
-               var Alquileres = from tDA in oCCE.Set<tblDetAlquiler>()
-                                join tPE in oCCE.Set<tblPeliculaEjemplar>()
-                                on tDA.Codigo equals tPE.Id_DetAlquiler
-                                join tA in oCCE.Set<tblAlquiler>()
-                                on tDA.Id_Alquiler equals tA.Codigo
-                                orderby tDA.Codigo
-                                select new
-                                {
-                                    Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
-                                    Codigo = tDA.Codigo,
-                                    Cantidad = tDA.Cantidad,
-                                    Fecha_Inicio = tDA.Fecha_Inicio,
-                                    Fecha_Fin = tDA.Fecha_Fin,
-                                    Vlr_Alquiler = tDA.Vlr_Alquiler,
-                                    Id_Alquiler = tDA.Id_Alquiler,
-                                    Ejemplar = tPE.Codigo,
-                                };
+                var Alquileres = from tDA in oCCE.Set<tblDetAlquiler>()
+
+                                 join tPE in oCCE.Set<tblPeliculaEjemplar>()
+                                 on tDA.Codigo equals tPE.Id_DetAlquiler
+                                 join tA in oCCE.Set<tblAlquiler>()
+                                 on tDA.Id_Alquiler equals tA.Codigo
+                                 join Pe in oCCE.Set<tblPelicula>()
+                                 on tPE.Id_Pelicula equals Pe.Codigo
+                                 orderby tDA.Codigo
+                                 select new
+                                 {
+                                     Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
+                                     Codigo = tDA.Codigo,
+                                     Cantidad = tDA.Cantidad,
+                                     Fecha_Inicio = tDA.Fecha_Inicio,
+                                     Fecha_Fin = tDA.Fecha_Fin,
+                                     Vlr_Alquiler = tDA.Vlr_Alquiler,
+                                     Id_Alquiler = tDA.Id_Alquiler,
+                                     Id_Ejemplar = tPE.Codigo,
+                                     Nombre = Pe.Nombre,
+
+                                 };
 
                 return Alquileres; // Retorna el IQueryable directamente
             }
@@ -54,6 +59,8 @@ namespace apiCineClub.Clases
                                  on tDA.Codigo equals tPE.Id_DetAlquiler
                                  join tA in oCCE.Set<tblAlquiler>()
                                  on tDA.Id_Alquiler equals tA.Codigo
+                                 join Pe in oCCE.Set<tblPelicula>()
+                                 on tPE.Id_Pelicula equals Pe.Codigo
                                  orderby tDA.Codigo
                                  select new
                                  {
@@ -64,7 +71,8 @@ namespace apiCineClub.Clases
                                      Fecha_Fin = tDA.Fecha_Fin,
                                      Vlr_Alquiler = tDA.Vlr_Alquiler,
                                      Id_Alquiler = tDA.Id_Alquiler,
-                                     Ejemplar = tPE.Codigo,
+                                     Nombre = Pe.Nombre,
+                                     Id_Ejemplar = tPE.Codigo,
                                  };
 
                 return Alquileres; // Retorna el IQueryable directamente
@@ -92,7 +100,7 @@ namespace apiCineClub.Clases
             tblAlqui.Codigo = idmax;
             try
             {
-                oCCE.Alquileres.Add(tblAlqui);
+                oCCE.tblAlquilers.Add(tblAlqui);
                 oCCE.SaveChanges();
                 return $"Registro grabado con éxito: {tblAlqui.Nombre} , con Id: {tblAlqui.Codigo} ";
 
@@ -109,7 +117,7 @@ namespace apiCineClub.Clases
         {
             try
             {
-                tblDetAlquiler tbAlqui = oCCE.tblAlquileres.FirstOrDefault(s => s.Codigo == tblAlqui.Codigo);
+                tblDetAlquiler tbAlqui = oCCE.tblAlquilers.FirstOrDefault(s => s.Codigo == tblAlqui.Codigo);
 
                 // Si no se encuentra el registro, devolver un mensaje de error
                 if (tbAlqui == null)
@@ -140,4 +148,3 @@ namespace apiCineClub.Clases
         }
     }
 }
-
