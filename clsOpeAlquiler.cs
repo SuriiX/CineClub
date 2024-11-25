@@ -1,11 +1,14 @@
 using apiCineClub.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
+
 namespace apiCineClub.Clases
 {
+
     public class clsOpeAlquiler
     {
         private readonly bdCineClubEntities oCCE = new bdCineClubEntities();
@@ -60,44 +63,42 @@ namespace apiCineClub.Clases
 
         public string Agregar()
         {
-
             var idmax = 0;
             try
             {
-                idmax = oCCE.tblPeliculas.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
+                idmax = oCCE.tblAlquilers.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
             }
             catch
             {
-
-                return $"Error, Hubo un fallo al grabar en el registro con Id: {tblAlquil.Codigo} ";
+                return $"Error, hubo un fallo al obtener el ID máximo para el registro de alquiler con Id: {tblAlquil.Codigo}";
             }
 
+            // Asignar el nuevo ID generado
             tblAlquil.Codigo = idmax;
+
             try
             {
-                oCCE.Alquilereses.Add(tblAlquil);
+                // Agregar el nuevo alquiler al contexto
+                oCCE.tblAlquilers.Add(tblAlquil);
                 oCCE.SaveChanges();
-                return $"Registro grabado con éxito con Id: {tblAlquil.Codigo} ";
-
+                return $"Registro grabado con éxito con Id: {tblAlquil.Codigo}";
             }
             catch
             {
-                return $"Error, hubo fallo al grabar el registro con Id: {tblAlquil.Codigo} ";
-
+                return $"Error, hubo un fallo al grabar el registro de alquiler con Id: {tblAlquil.Codigo}";
             }
-
-
         }
+
         public string Modificar()
         {
             try
             {
-                tblDetAlquiler tbAlquil = oCCE.tblAlquilereses.FirstOrDefault(s => s.Codigo == tblAlquil.Codigo);
+                tblAlquiler tbAlquil = oCCE.tblAlquilers.FirstOrDefault(s => s.Codigo == tblAlquil.Codigo);
 
                 // Si no se encuentra el registro, devolver un mensaje de error
                 if (tbAlquil == null)
                 {
-                    return $"No se encontró la película con ID: {tblAlquil.Codigo}";
+                    return $"No se encontró el alquiler con ID: {tblAlquil.Codigo}";
                 }
 
                 // Actualizar los campos con los nuevos valores
