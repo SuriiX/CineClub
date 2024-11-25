@@ -1,6 +1,4 @@
-﻿﻿﻿
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
+﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,10 +15,10 @@
     &nbsp;&nbsp;&nbsp;&nbsp;<a class="navbar-brand" href="#">PELICULAS CINECLUB</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="frmInicio.html"> Inicio <span class="sr-only"></span></a>
-
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,10 +54,29 @@
                     <a class="dropdown-item" href="frmUsuario.html">Usuario</a>
                     <a class="dropdown-item" href="frmAlquiler.html">Alquiler</a>
                     <a class="dropdown-item" href="frmDpto.html">Departamento</a>
-
-
                 </div>
             </li>
         </ul>
+
+        <!-- Espacio para el nombre de usuario -->
+        <div class="navbar-text ml-auto" style="color: white;">
+            <span id="usuarioNombre">Usuario: PETRO  </span>
+        </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            // Obtener el usuario del localStorage
+            let usuario = localStorage.getItem('usuario');
+
+            // Verificar si el usuario está almacenado
+            if (usuario) {
+                $("#usuarioNombre").text(`Usuario: ${usuario}`);
+            } else {
+                $("#usuarioNombre").text("Usuario: No logueado");
+            }
+        });
+    </script>
+
+    <!-- Cargar el archivo JS de manejo del menú -->
+    <script src="../Scripts/menu.js"></script>
 </nav>
