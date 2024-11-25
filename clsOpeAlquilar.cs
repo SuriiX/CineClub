@@ -10,140 +10,148 @@ namespace apiCineClub.Clases
     {
         private readonly bdCineClubEntities oCCE = new bdCineClubEntities();
 
-        public tblDetAlquiler tblAlqui { get; set; }
+        public tblDetAlquiler tblDetAlqui { get; set; }
 
         // Método para listar todas las películas
-        public IQueryable listarAlquileres()
+        public IQueryable listarDetAlquiler()
         {
             try
             {
-                var Alquileres = from tDA in oCCE.Set<tblDetAlquiler>()
+                var alquilar = from tDe in oCCE.Set<tblDetAlquiler>()
+                                join tE in oCCE.Set<tblPeliculaEjemplar>()
+                                on tDe.Id_PeliculaEjem equals tE.Codigo
+                                join tA in oCCE.Set<tblAlquiler>()
+                                on tDe.Id_Alquiler equals tA.Codigo
+                                join tP in oCCE.Set<tblPelicula >()
+                                on tE.Id_Pelicula equals tP.Codigo
+                                join tC in oCCE.Set<tblCliente>()
+                                on tA.Id_Cliente equals tC.Codigo
 
-                                 join tPE in oCCE.Set<tblPeliculaEjemplar>()
-                                 on tDA.Codigo equals tPE.Id_DetAlquiler
-                                 join tA in oCCE.Set<tblAlquiler>()
-                                 on tDA.Id_Alquiler equals tA.Codigo
-                                 join Pe in oCCE.Set<tblPelicula>()
-                                 on tPE.Id_Pelicula equals Pe.Codigo
-                                 orderby tDA.Codigo
-                                 select new
-                                 {
-                                     Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
-                                     Codigo = tDA.Codigo,
-                                     Cantidad = tDA.Cantidad,
-                                     Fecha_Inicio = tDA.Fecha_Inicio,
-                                     Fecha_Fin = tDA.Fecha_Fin,
-                                     Vlr_Alquiler = tDA.Vlr_Alquiler,
-                                     Id_Alquiler = tDA.Id_Alquiler,
-                                     Id_Ejemplar = tPE.Codigo,
-                                     Nombre = Pe.Nombre,
+                               orderby tDe.Codigo
+                                select new
+                                {
+                                    Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
+                                    Codigo = tDe.Codigo,
+                                    Cantidad = tDe.Cantidad,
+                                    FechaInicio = tDe.Fecha_Inicio,
+                                    FechaFinal = tDe.Fecha_Fin,
+                                    ValorAlquiler = tDe.Vlr_Alquiler,
+                                    PeliculaEjemplar = tP.Nombre,
+                                    Cliente =tC.Nombre
+                                };
 
-                                 };
-
-                return Alquileres; // Retorna el IQueryable directamente
+                return alquilar; // Retorna el IQueryable directamente
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener los Alquileres", ex);
+                throw new Exception("Error al obtener las peliculas", ex);
             }
         }
 
         // Método para listar una película por su código
-        public IQueryable listarAlquilerXCod(int id)
+        public IQueryable listarDetAlquilarXCod(int id)
         {
             try
             {
+                var alquilar = from tDe in oCCE.Set<tblDetAlquiler>()
+                               join tE in oCCE.Set<tblPeliculaEjemplar>()
+                               on tDe.Id_PeliculaEjem equals tE.Codigo
+                               join tA in oCCE.Set<tblAlquiler>()
+                               on tDe.Id_Alquiler equals tA.Codigo
+                               join tP in oCCE.Set<tblPelicula>()
+                               on tE.Id_Pelicula equals tP.Codigo
+                               where tDe.Codigo==id
+                               orderby tDe.Codigo
+                               select new
+                               {
+                                   Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
+                                   Codigo = tDe.Codigo,
+                                   Cantidad = tDe.Cantidad,
+                                   FechaInicio = tDe.Fecha_Inicio,
+                                   FechaFinal = tDe.Fecha_Fin,
+                                   ValorAlquiler = tDe.Vlr_Alquiler,
+                                   Id_Ejemplar = tE.Codigo,
+                                   Id_Alquiler = tA.Codigo,
+                               };
 
-                var Alquileres = from tDA in oCCE.Set<tblDetAlquiler>()
-                                 join tPE in oCCE.Set<tblPeliculaEjemplar>()
-                                 on tDA.Codigo equals tPE.Id_DetAlquiler
-                                 join tA in oCCE.Set<tblAlquiler>()
-                                 on tDA.Id_Alquiler equals tA.Codigo
-                                 join Pe in oCCE.Set<tblPelicula>()
-                                 on tPE.Id_Pelicula equals Pe.Codigo
-                                 orderby tDA.Codigo
-                                 select new
-                                 {
-                                     Editar = $"<a class='btn btn-info btn-sm' href='#'><i class='fas fa-pencil-alt'></i> Editar</a>",
-                                     Codigo = tDA.Codigo,
-                                     Cantidad = tDA.Cantidad,
-                                     Fecha_Inicio = tDA.Fecha_Inicio,
-                                     Fecha_Fin = tDA.Fecha_Fin,
-                                     Vlr_Alquiler = tDA.Vlr_Alquiler,
-                                     Id_Alquiler = tDA.Id_Alquiler,
-                                     Nombre = Pe.Nombre,
-                                     Id_Ejemplar = tPE.Codigo,
-                                 };
-
-                return Alquileres; // Retorna el IQueryable directamente
+                return alquilar; // Retorna el IQueryable directamente
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener el alquiler", ex);
+                throw new Exception("Error al obtener la pelicula", ex);
             }
         }
-
         public string Agregar()
         {
-
-            var idmax = 0;
             try
             {
-                idmax = oCCE.tblPeliculas.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
-            }
-            catch
-            {
+                // Obtener el próximo ID (si es necesario)
+                var idmax = oCCE.tblDetAlquilers.DefaultIfEmpty().Max(r => r == null ? 1 : r.Codigo + 1);
+                tblDetAlqui.Codigo = idmax;
 
-                return $"Error, Hubo un fallo al grabar en el registro: {tblAlqui.Nombre}, con Id: {tblAlqui.Codigo} ";
-            }
-
-            tblAlqui.Codigo = idmax;
-            try
-            {
-                oCCE.tblAlquilers.Add(tblAlqui);
+                // Insertar el registro
+                oCCE.tblDetAlquilers.Add(tblDetAlqui);
                 oCCE.SaveChanges();
-                return $"Registro grabado con éxito: {tblAlqui.Nombre} , con Id: {tblAlqui.Codigo} ";
 
+                return $"Registro grabado con éxito: con ID: {tblDetAlqui.Codigo}";
             }
-            catch
+            catch (Exception ex)
             {
-                return $"Error, hubo fallo al grabar el registro: {tblAlqui.Nombre} , con Id: {tblAlqui.Codigo} ";
-
+                return $"Error al grabar el registro: {ex.Message}";
             }
-
-
         }
         public string Modificar()
         {
             try
             {
-                tblDetAlquiler tbAlqui = oCCE.tblAlquilers.FirstOrDefault(s => s.Codigo == tblAlqui.Codigo);
+                var tbDetA = oCCE.tblDetAlquilers.FirstOrDefault(s => s.Codigo == tblDetAlqui.Codigo);
 
                 // Si no se encuentra el registro, devolver un mensaje de error
-                if (tbAlqui == null)
+                if (tbDetA == null)
                 {
-                    return $"No se encontró la película con ID: {tblAlqui.Codigo}";
+                    return $"No se encontró la película con ID: {tblDetAlqui.Codigo}";
                 }
 
                 // Actualizar los campos con los nuevos valores
-                tbAlqui.Codigo = tblAlqui.Codigo;
-                tbAlqui.Cantidad = tblAlqui.Cantidad;
-                tbAlqui.Fecha_Inicio = tblAlqui.Fecha_Inicio;
-                tbAlqui.Fecha_Fin = tblAlqui.Fecha_Fin;
-                tbAlqui.Vlr_Alquiler = tblAlqui.Vlr_Alquiler;
-                tbAlqui.Id_Alquiler = tblAlqui.Id_Alquiler;
-
+                tbDetA.Codigo = tblDetAlqui.Codigo;
+                tbDetA.Cantidad = tblDetAlqui.Cantidad;
+                tbDetA.Fecha_Inicio = tblDetAlqui.Fecha_Inicio;
+                tbDetA.Fecha_Fin = tblDetAlqui.Fecha_Fin;
+                tbDetA.Vlr_Alquiler = tblDetAlqui.Vlr_Alquiler ;
+                tbDetA.Id_PeliculaEjem = tblDetAlqui.Id_PeliculaEjem;
+                tbDetA.Id_Alquiler = tblDetAlqui.Id_Alquiler;
 
                 // Guardar los cambios en la base de datos
                 oCCE.SaveChanges();
 
-                return $"Se actualizó el registro de el Alquiler con ID: {tbAlqui.Codigo}";
+                return $"Se actualizó el registro de la película con ID: {tbDetA.Codigo}";
 
             }
             catch (Exception ex)
             {
                 // Retornar el mensaje de error con más detalles sobre el fallo
-                return $"Error, hubo un fallo al actualizar el registro de la película con ID: {tblAlqui.Codigo}. Detalles: {ex.Message}";
+                return $"Error, hubo un fallo al actualizar el registro de la película con ID: {tblDetAlqui.Codigo}. Detalles: {ex.Message}";
+            }
+        }
+        public string Eliminar(int id)
+        {
+            try
+            {
+                // Buscar el registro en la base de datos por el código
+                var detAlquiler = oCCE.tblDetAlquilers.FirstOrDefault(p => p.Codigo == id);
+                if (detAlquiler == null)
+                {
+                    return $"Error: No se encontró el registro con Código {id}.";
+                }
+
+                // Eliminar el registro
+                oCCE.tblDetAlquilers.Remove(detAlquiler);
+                oCCE.SaveChanges();
+                return $"Registro con Código {id} eliminado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                return $"Error al intentar eliminar el registro con Código {id}: {ex.Message}";
             }
         }
     }
